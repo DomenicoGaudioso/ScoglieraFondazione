@@ -1,0 +1,44 @@
+Sviluppare e mantenere una web app professionale in Python e Streamlit per il
+dimensionamento preliminare dell'apron fondazionale a protezione di una pila da ponte.
+
+STATO ATTUALE (v2 — 2026-03-22)
+La versione attuale è completa nei requisiti di base. Funzionalità implementate:
+- FondazioneDesign (dataclass frozen) con D50, spessore, larghezza, sottofondo.
+- valida_dati(): controlla D50 > 0, D50 ≤ 3 m, ys > 0.
+- spessore_fondazione(): t = f_t · D50.
+- larghezza_fondazione(): ext = f_L · ys.
+- affondamento_sottofondo(): z = max(0.30 m, 0.20·ys).
+- progetto_fondazione(): wrapper → FondazioneDesign.
+- stima_volume_apron(): V = (L_pila + 2·ext) × (a_pila + 2·ext) × t.
+- calcola_report(): DataFrame con tutti i parametri e volume.
+- curva_sensitivita_D50(): 50 punti, spessore vs D50.
+- curva_sensitivita_ys(): 50 punti, estensione e affondamento vs ys.
+- commenti_progettuali(): note automatiche su spessore minimo, estensione, affondamento, filtro.
+- app.py: layout wide, 4 metriche, input pila + fattori in sidebar, 3 tab,
+  2 grafici sensitività Plotly con marcatura, download CSV.
+
+STANDARD DELLA SUITE
+- Tutta la logica in `src.py`. Nessuna formula in `app.py`.
+- Grafici esclusivamente Plotly.
+- Interfaccia in italiano.
+- Dataclass frozen per i risultati strutturati.
+- Validazioni robuste con st.stop() in caso di errore.
+- Tab: Risultati / Grafici / Note tecniche.
+- Export CSV.
+
+FLUSSO DATI NELLA SUITE
+App Scalzamento → ys → ScoglieraPila → D50 → ScoglieraFondazione → dimensioni apron.
+I parametri D50 e ys sono inseriti manualmente (futuro: collegamento diretto).
+
+ESTENSIONI FUTURE PRIORITARIE
+1. Stima massa totale apron (aggiungere densità_roccia in input sidebar).
+2. Grafico sezione verticale dell'apron (Plotly shapes: fondo, apron, pila).
+3. Dettaglio filtro granulare (Terzaghi / Sherard).
+4. Confronto scenari: sweep su f_t o f_L con curva volume vs fattore.
+5. Collegamento diretto con ScoglieraPila (pass-through D50).
+6. Report PDF.
+
+REQUISITI DI CODICE
+- Non rompere la separazione src.py / app.py.
+- Aggiornare sempre readme.md e prompt.txt dopo ogni iterazione.
+- Mantenere le funzioni esistenti compatibili con le loro segnature.
