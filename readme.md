@@ -1,4 +1,5 @@
 # ScoglieraFondazione – Apron fondazionale a protezione della pila da ponte
+![alt text](socialScoglieraFondazione.png)
 
 Web app professionale per il **dimensionamento preliminare dell'apron fondazionale**
 a protezione di una pila da ponte. Raccorda l'output dell'app Scalzamento (ys) e
