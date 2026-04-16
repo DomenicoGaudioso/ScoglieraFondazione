@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScoglieraFondazione - Documentazione Tecnica</title>
+    <style>
+        :root {
+            --primary: #1a3a5c;
+            --accent: #2980b9;
+            --accent2: #27ae60;
+            --danger: #e74c3c;
+            --warn: #f39c12;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border: #dee2e6;
+            --text: #212529;
+            --text-light: #6c757d;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a3a5c 0%, #2c5f8a 100%);
+            color: white;
+            padding: 60px 20px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--bg);
+            border-radius: 50% 50% 0 0;
+        }
+        .hero h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .hero .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+        .hero .meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .badge.normativa {
+            background: #f39c12;
+            color: white;
+            border: none;
+        }
+
+        /* Navigation */
+        .nav-container {
+            max-width: 1100px;
+            margin: -50px auto 30px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        .toc {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 25px 30px;
+        }
+        .toc h2 {
+            color: var(--primary);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 8px;
+        }
+        .toc a {
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 0.92em;
+            transition: all 0.2s;
+        }
+        .toc a:hover {
+            background: var(--bg);
+            color: var(--accent);
+            text-decoration: none;
+            padding-left: 18px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 35px 40px;
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            color: var(--primary);
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--accent);
+        }
+        .section h3 {
+            color: var(--primary);
+            font-size: 1.2em;
+            margin: 25px 0 15px;
+        }
+        .section p {
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.06);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92em;
+        }
+        thead {
+            background: var(--primary);
+            color: white;
+        }
+        th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+        tbody tr:hover {
+            background: #eef4fa;
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: #f4f6f9;
+            border-left: 5px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 20px 25px;
+            margin: 20px 0;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+        }
+        .formula-box .formula-label {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.82em;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .formula-box .formula {
+            font-size: 1.25em;
+            color: var(--primary);
+            margin: 8px 0;
+        }
+        .formula-box .formula-note {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        .card h4 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+        .card p {
+            font-size: 0.9em;
+            color: var(--text-light);
+        }
+
+        /* Info Cards with colored left border */
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px 25px;
+            margin: 15px 0;
+            border-left: 5px solid var(--accent);
+        }
+        .info-card.success { border-left-color: var(--accent2); }
+        .info-card.warning { border-left-color: var(--warn); }
+        .info-card.danger { border-left-color: var(--danger); }
+        .info-card h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        .info-card p {
+            font-size: 0.92em;
+            color: var(--text);
+        }
+
+        /* Badges */
+        .badge-ok {
+            background: var(--accent2);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        .badge-warn {
+            background: var(--warn);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        .badge-fail {
+            background: var(--danger);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        /* SVG Styling */
+        .svg-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+        .svg-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Code */
+        code {
+            background: #f4f4f4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.88em;
+            color: #c7254e;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+        footer .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        footer h3 {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        footer p {
+            font-size: 0.9em;
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+        footer .disclaimer {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.82em;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .section { padding: 25px 20px; }
+            .toc { padding: 20px; }
+            th, td { padding: 10px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== HERO SECTION ==================== -->
+<section class="hero">
+    <h1>ScoglieraFondazione</h1>
+    <p class="subtitle">Software professionale per il dimensionamento dell'apron fondazionale a protezione di pile da ponte</p>
+    <div class="meta">
+        <span class="badge">v2.0</span>
+        <span class="badge">Python / Streamlit</span>
+        <span class="badge normativa">FHWA HEC-23</span>
+        <span class="badge normativa">EN 13383-1</span>
+        <span class="badge normativa">Terzaghi 1943</span>
+    </div>
+</section>
+
+<!-- ==================== TABLE OF CONTENTS ==================== -->
+<nav class="nav-container">
+    <div class="toc">
+        <h2>Indice dei Contenuti</h2>
+        <div class="toc-grid">
+            <a href="#panoramica">1. Panoramica Generale</a>
+            <a href="#funzionalita">2. Funzionalità e Verifiche</a>
+            <a href="#geometria">3. Geometria dell'Apron</a>
+            <a href="#parametri">4. Input e Parametri</a>
+            <a href="#normative">5. Metodologia e Normative</a>
+            <a href="#verifiche">6. Verifiche Normative</a>
+            <a href="#report">7. Generazione Report</a>
+            <a href="#limitazioni">8. Limitazioni</a>
+            <a href="#glossario">9. Glossario</a>
+            <a href="#footer">10. Footer</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ==================== SECTION 1: PANORAMICA ==================== -->
+<div class="container">
+    <section class="section" id="panoramica">
+        <h2>1. Panoramica Generale</h2>
+        
+        <p><strong>ScoglieraFondazione</strong> è un'applicazione web professionale per il <strong>dimensionamento preliminare dell'apron fondazionale</strong> a protezione di una pila da ponte. L'apron è una struttura di protezione realizzatacon massi lapidei disposti a mano o meccanicamente, progettata per prevenire lo scalzamento delle fondazioni della pila dovuto all'erosione del letto fluviale.</p>
+        
+        <p>L'applicazione riceve in input i parametri <strong>D50</strong> (pezzatura dei massi, da <em>ScoglieraPila</em>) e <strong>ys</strong> (scalzamento atteso, da <em>Scalzamento</em>) e restituisce le dimensioni geometriche dell'apron, le verifiche normative, la stima del volume e del costo.</p>
+
+        <h3>Riferimenti Normativi</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Normativa</th>
+                        <th>Titolo</th>
+                        <th>Applicazione</th>
+                        <th>Stato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>FHWA HEC-23</td>
+                        <td>Bridge Scour and Stream Instability Countermeasures</td>
+                        <td>Spessore, estensione apron</td>
+                        <td><span class="badge-ok">Implementato</span></td>
+                    </tr>
+                    <tr>
+                        <td>FHWA HEC-18</td>
+                        <td>Evaluating Scour at Bridges</td>
+                        <td>Estensione laterale</td>
+                        <td><span class="badge-ok">Implementato</span></td>
+                    </tr>
+                    <tr>
+                        <td>Terzaghi (1943)</td>
+                        <td>Theoretical Soil Mechanics</td>
+                        <td>Filtro granulare</td>
+                        <td><span class="badge-ok">Implementato</span></td>
+                    </tr>
+                    <tr>
+                        <td>USACE EM 1110-2-1913</td>
+                        <td>Design and Construction of Levees</td>
+                        <td>Strato filtro</td>
+                        <td><span class="badge-ok">Implementato</span></td>
+                    </tr>
+                    <tr>
+                        <td>EN 13383-1</td>
+                        <td>Armourstone - Specifications</td>
+                        <td>Pezzatura D50</td>
+                        <td><span class="badge-ok">Implementato</span></td>
+                    </tr>
+                    <tr>
+                        <td>Richardson & Davis</td>
+                        <td>Evaluating Scour at Bridges (HEC-18)</td>
+                        <td>Estensione minima</td>
+                        <td><span class="badge-ok">Implementato</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 2: FUNZIONALITA ==================== -->
+    <section class="section" id="funzionalita">
+        <h2>2. Funzionalità e Verifiche Strutturali</h2>
+
+        <div class="card-grid">
+            <div class="card">
+                <h4>Dimensionamento Geometrico</h4>
+                <p>Calcolo automatico di spessore, estensione laterale e affondamento dell'apron in funzione di D50 e ys.</p>
+            </div>
+            <div class="card">
+                <h4>Volume e Massa</h4>
+                <p>Stima del volume totale dell'apron e della massa di roccia necessaria, inclusa la porosità.</p>
+            </div>
+            <div class="card">
+                <h4>Stima Costi</h4>
+                <p>Valutazione economica preliminare di scogliera e filtro granulare con costi unitari configurabili.</p>
+            </div>
+            <div class="card">
+                <h4>Verifiche Normative</h4>
+                <p>Tabella sistematica delle verifiche con riferimento a FHWA HEC-23, Terzaghi e normativa tecnica.</p>
+            </div>
+            <div class="card">
+                <h4>Curve di Sensitività</h4>
+                <p>Grafici interattivi che mostrano come variano spessore e estensione al variare di D50 e ys.</p>
+            </div>
+            <div class="card">
+                <h4>Report PDF</h4>
+                <p>Generazione automatica di report professionali in formato PDF con tutti i calcoli e le verifiche.</p>
+            </div>
+        </div>
+
+        <h3>Flusso delle Verifiche</h3>
+        <div class="svg-container">
+            <svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <defs>
+                    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#f8f9fa"/>
+                        <stop offset="100%" style="stop-color:#eef4fa"/>
+                    </linearGradient>
+                    <linearGradient id="inputGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#2980b9"/>
+                        <stop offset="100%" style="stop-color:#1a5276"/>
+                    </linearGradient>
+                    <linearGradient id="calcGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#27ae60"/>
+                        <stop offset="100%" style="stop-color:#1e8449"/>
+                    </linearGradient>
+                    <linearGradient id="verifGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#e74c3c"/>
+                        <stop offset="100%" style="stop-color:#c0392b"/>
+                    </linearGradient>
+                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+                    </filter>
+                </defs>
+                <rect width="900" height="320" fill="url(#bgGrad)" rx="10"/>
+                
+                <!-- Input Block -->
+                <g filter="url(#shadow)">
+                    <rect x="30" y="50" width="160" height="100" rx="8" fill="url(#inputGrad)"/>
+                    <text x="110" y="75" text-anchor="middle" fill="white" font-family="Segoe UI" font-weight="600" font-size="13">INPUT</text>
+                    <text x="110" y="95" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="11">D50 [m] ← ScoglieraPila</text>
+                    <text x="110" y="112" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="11">ys [m] ← Scalzamento</text>
+                    <text x="110" y="129" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="11">Geometria pila</text>
+                </g>
+
+                <!-- Arrow 1 -->
+                <line x1="190" y1="100" x2="230" y2="100" stroke="#1a3a5c" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <polygon points="230,95 240,100 230,105" fill="#1a3a5c"/>
+
+                <!-- Validation Block -->
+                <g filter="url(#shadow)">
+                    <rect x="240" y="50" width="140" height="100" rx="8" fill="#f39c12"/>
+                    <text x="310" y="75" text-anchor="middle" fill="white" font-family="Segoe UI" font-weight="600" font-size="12">VALIDAZIONE</text>
+                    <text x="310" y="95" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="10">D50 > 0, D50 ≤ 3m</text>
+                    <text x="310" y="112" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="10">ys > 0</text>
+                    <text x="310" y="129" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="10">Range ammissibile</text>
+                </g>
+
+                <!-- Arrow 2 -->
+                <line x1="380" y1="100" x2="420" y2="100" stroke="#1a3a5c" stroke-width="2"/>
+                <polygon points="420,95 430,100 420,105" fill="#1a3a5c"/>
+
+                <!-- Calculation Block -->
+                <g filter="url(#shadow)">
+                    <rect x="430" y="50" width="200" height="100" rx="8" fill="url(#calcGrad)"/>
+                    <text x="530" y="75" text-anchor="middle" fill="white" font-family="Segoe UI" font-weight="600" font-size="13">CALCOLO</text>
+                    <text x="530" y="95" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="10">t = f<tspan baseline-shift="sub" font-size="8">t</tspan>·D50</text>
+                    <text x="530" y="112" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="10">ext = f<tspan baseline-shift="sub" font-size="8">L</tspan>·ys</text>
+                    <text x="530" y="129" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="10">z = max(0.30, 0.20·ys)</text>
+                </g>
+
+                <!-- Arrow 3 -->
+                <line x1="630" y1="100" x2="670" y2="100" stroke="#1a3a5c" stroke-width="2"/>
+                <polygon points="670,95 680,100 670,105" fill="#1a3a5c"/>
+
+                <!-- Verification Block -->
+                <g filter="url(#shadow)">
+                    <rect x="680" y="50" width="190" height="100" rx="8" fill="url(#verifGrad)"/>
+                    <text x="775" y="75" text-anchor="middle" fill="white" font-family="Segoe UI" font-weight="600" font-size="12">VERIFICHE</text>
+                    <text x="775" y="95" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="9">t ≥ max(0.30, 2·D50)</text>
+                    <text x="775" y="112" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="9">ext ≥ 2·ys</text>
+                    <text x="775" y="129" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Segoe UI" font-size="9">z ≥ 0.30 m</text>
+                </g>
+
+                <!-- Results Section -->
+                <g filter="url(#shadow)">
+                    <rect x="240" y="180" width="630" height="120" rx="10" fill="white" stroke="#dee2e6" stroke-width="2"/>
+                    <text x="555" y="205" text-anchor="middle" fill="#1a3a5c" font-family="Segoe UI" font-weight="700" font-size="14">OUTPUT RISULTATI</text>
+                    
+                    <!-- Result boxes -->
+                    <rect x="260" y="220" width="110" height="65" rx="6" fill="#e8f6f3"/>
+                    <text x="315" y="242" text-anchor="middle" fill="#1a3a5c" font-family="Segoe UI" font-size="10">Spessore apron</text>
+                    <text x="315" y="262" text-anchor="middle" fill="#27ae60" font-family="Segoe UI" font-weight="700" font-size="16">t [m]</text>
+                    
+                    <rect x="390" y="220" width="110" height="65" rx="6" fill="#e8f4f8"/>
+                    <text x="445" y="242" text-anchor="middle" fill="#1a3a5c" font-family="Segoe UI" font-size="10">Estensione</text>
+                    <text x="445" y="262" text-anchor="middle" fill="#2980b9" font-family="Segoe UI" font-weight="700" font-size="16">ext [m]</text>
+                    
+                    <rect x="520" y="220" width="110" height="65" rx="6" fill="#fef9e7"/>
+                    <text x="575" y="242" text-anchor="middle" fill="#1a3a5c" font-family="Segoe UI" font-size="10">Affondamento</text>
+                    <text x="575" y="262" text-anchor="middle" fill="#f39c12" font-family="Segoe UI" font-weight="700" font-size="16">z [m]</text>
+                    
+                    <rect x="650" y="220" width="110" height="65" rx="6" fill="#f5eef8"/>
+                    <text x="705" y="242" text-anchor="middle" fill="#1a3a5c" font-family="Segoe UI" font-size="10">Volume</text>
+                    <text x="705" y="262" text-anchor="middle" fill="#8e44ad" font-family="Segoe UI" font-weight="700" font-size="16">V [m³]</text>
+                    
+                    <!-- Export buttons -->
+                    <rect x="260" y="295" width="200" height="28" rx="4" fill="#2980b9"/>
+                    <text x="360" y="313" text-anchor="middle" fill="white" font-family="Segoe UI" font-size="10">📄 Report PDF</text>
+                    
+                    <rect x="480" y="295" width="200" height="28" rx="4" fill="#27ae60"/>
+                    <text x="580" y="313" text-anchor="middle" fill="white" font-family="Segoe UI" font-size="10">📊 Esporta CSV</text>
+                </g>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 3: GEOMETRIA ==================== -->
+    <section class="section" id="geometria">
+        <h2>3. Geometria dell'Apron Fondazionale</h2>
+
+        <p>L'apron fondazionale è una struttura di protezione planare, composta da massi lapidei di pezzatura uniforme (D50), disposti su uno strato filtro granulare. La sezione trasversale tipo è illustrata nel diagramma seguente.</p>
+
+        <div class="svg-container">
+            <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="soil" patternUnits="userSpaceOnUse" width="20" height="20">
+                        <rect width="20" height="20" fill="#d4a574"/>
+                        <circle cx="5" cy="5" r="1.5" fill="#8b6914" opacity="0.5"/>
+                        <circle cx="15" cy="12" r="1" fill="#8b6914" opacity="0.4"/>
+                        <circle cx="8" cy="16" r="1.2" fill="#8b6914" opacity="0.3"/>
+                    </pattern>
+                    <pattern id="rocks" patternUnits="userSpaceOnUse" width="30" height="25">
+                        <ellipse cx="8" cy="8" rx="7" ry="6" fill="#6b7b8c" stroke="#4a5568" stroke-width="1"/>
+                        <ellipse cx="22" cy="15" rx="6" ry="5" fill="#7d8d9e" stroke="#4a5568" stroke-width="1"/>
+                        <ellipse cx="15" cy="22" rx="5" ry="4" fill="#5c6b7c" stroke="#4a5568" stroke-width="1"/>
+                    </pattern>
+                    <pattern id="filter" patternUnits="userSpaceOnUse" width="15" height="15">
+                        <rect width="15" height="15" fill="#c9a959"/>
+                        <circle cx="4" cy="4" r="2" fill="#a08030"/>
+                        <circle cx="11" cy="10" r="1.5" fill="#a08030"/>
+                    </pattern>
+                    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#2980b9"/>
+                    </marker>
+                    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c"/>
+                    </marker>
+                    <linearGradient id="pileGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#7f8c8d"/>
+                        <stop offset="50%" style="stop-color:#95a5a6"/>
+                        <stop offset="100%" style="stop-color:#7f8c8d"/>
+                    </linearGradient>
+                </defs>
+
+                <!-- Ground level line -->
+                <line x1="50" y1="220" x2="750" y2="220" stroke="#2c3e50" stroke-width="2" stroke-dasharray="5,3"/>
+                <text x="760" y="224" font-family="Segoe UI" font-size="12" fill="#2c3e50">Fondo attuale</text>
+
+                <!-- Soil layers -->
+                <rect x="50" y="220" width="700" height="200" fill="url(#soil)"/>
+                
+                <!-- Subsoil label -->
+                <text x="70" y="350" font-family="Segoe UI" font-size="11" fill="#5d4037" font-style="italic">Substrato (materiale erodibile)</text>
+
+                <!-- Filter layer -->
+                <rect x="100" y="280" width="600" height="35" fill="url(#filter)" stroke="#8b7355" stroke-width="1"/>
+                <text x="400" y="303" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#5d4037" font-weight="600">Strato filtro granulare (t<tspan baseline-shift="sub" font-size="8">f</tspan>)</text>
+
+                <!-- Apron rocks layer -->
+                <rect x="100" y="220" width="600" height="60" fill="url(#rocks)"/>
+                <text x="400" y="255" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="white" font-weight="600">APRON - Massi D50 (spessore t)</text>
+
+                <!-- Pile -->
+                <rect x="320" y="100" width="160" height="120" fill="url(#pileGrad)" stroke="#5d6d7e" stroke-width="2"/>
+                <text x="400" y="130" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="white" font-weight="600">PILA</text>
+                <text x="400" y="150" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="rgba(255,255,255,0.8)">L × a</text>
+
+                <!-- Dimension lines -->
+                <!-- Width of apron (L_apron) -->
+                <line x1="100" y1="380" x2="700" y2="380" stroke="#2980b9" stroke-width="1.5"/>
+                <line x1="100" y1="375" x2="100" y2="390" stroke="#2980b9" stroke-width="1.5"/>
+                <line x1="700" y1="375" x2="700" y2="390" stroke="#2980b9" stroke-width="1.5"/>
+                <text x="400" y="400" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#2980b9" font-weight="600">L<tspan baseline-shift="sub" font-size="9">apron</tspan> = L<tspan baseline-shift="sub" font-size="9">pila</tspan> + 2·ext</text>
+
+                <!-- Pile dimensions -->
+                <line x1="320" y1="90" x2="480" y2="90" stroke="#e74c3c" stroke-width="1.5"/>
+                <line x1="320" y1="85" x2="320" y2="95" stroke="#e74c3c" stroke-width="1.5"/>
+                <line x1="480" y1="85" x2="480" y2="95" stroke="#e74c3c" stroke-width="1.5"/>
+                <text x="400" y="82" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#e74c3c">a (larghezza pila)</text>
+
+                <!-- Apron thickness (t) -->
+                <line x1="60" y1="220" x2="60" y2="280" stroke="#27ae60" stroke-width="2" marker-start="url(#arrowRed)" marker-end="url(#arrowBlue)"/>
+                <text x="45" y="255" text-anchor="middle" font-family="Segoe UI" font-size="12" fill="#27ae60" font-weight="600" transform="rotate(-90, 45, 255)">t = f<tspan baseline-shift="sub" font-size="9">t</tspan>·D50</text>
+
+                <!-- Filter thickness (t_f) -->
+                <line x1="720" y1="280" x2="720" y2="315" stroke="#f39c12" stroke-width="2" marker-start="url(#arrowRed)" marker-end="url(#arrowBlue)"/>
+                <text x="735" y="300" text-anchor="start" font-family="Segoe UI" font-size="11" fill="#f39c12" font-weight="600">t<tspan baseline-shift="sub" font-size="9">f</tspan></text>
+
+                <!-- Extension (ext) -->
+                <line x1="100" y1="210" x2="320" y2="210" stroke="#8e44ad" stroke-width="2"/>
+                <line x1="100" y1="205" x2="100" y2="215" stroke="#8e44ad" stroke-width="2"/>
+                <line x1="320" y1="205" x2="320" y2="215" stroke="#8e44ad" stroke-width="2"/>
+                <text x="210" y="200" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#8e44ad" font-weight="600">ext = f<tspan baseline-shift="sub" font-size="9">L</tspan>·ys</text>
+
+                <!-- Settlement (z) -->
+                <line x1="750" y1="220" x2="750" y2="280" stroke="#e74c3c" stroke-width="2" marker-start="url(#arrowRed)" marker-end="url(#arrowBlue)"/>
+                <text x="765" y="255" text-anchor="start" font-family="Segoe UI" font-size="11" fill="#e74c3c" font-weight="600">z<tspan baseline-shift="sub" font-size="9">sub</tspan></text>
+
+                <!-- Legend -->
+                <rect x="550" y="50" width="220" height="60" fill="white" stroke="#dee2e6" rx="5"/>
+                <text x="660" y="68" text-anchor="middle" font-family="Segoe UI" font-size="11" fill="#1a3a5c" font-weight="600">LEGENDA</text>
+                <rect x="560" y="78" width="15" height="12" fill="url(#rocks)"/>
+                <text x="582" y="88" font-family="Segoe UI" font-size="10" fill="#333">Apron (D50)</text>
+                <rect x="560" y="94" width="15" height="12" fill="url(#filter)"/>
+                <text x="582" y="104" font-family="Segoe UI" font-size="10" fill="#333">Filtro granulare</text>
+            </svg>
+        </div>
+
+        <h3>Formule Fondamentali</h3>
+
+        <div class="formula-box">
+            <div class="formula-label">Spessore dell'apron</div>
+            <div class="formula">t = f<sub>t</sub> × D<sub>50</sub></div>
+            <div class="formula-note">Dove f<sub>t</sub> = fattore di spessore (default 2.5), D<sub>50</sub> = diametro caratteristico dei massi [m]. FHWA HEC-23 raccomanda f<sub>t</sub> ≥ 2.0 per garantire almeno 2 strati di massi.</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Estensione laterale dell'apron</div>
+            <div class="formula">ext = f<sub>L</sub> × y<sub>s</sub></div>
+            <div class="formula-note">Dove f<sub>L</sub> = fattore di estensione (default 2.5), y<sub>s</sub> = profondità di scalzamento attesa [m]. L'estensione minima deve coprire l'area di erosione potenziale.</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Affondamento sotto il fondo attuale</div>
+            <div class="formula">z = max(0.30 m; 0.20 × y<sub>s</sub>)</div>
+            <div class="formula-note">L'apron deve essere ancorato al di sotto del fondo erodibile per prevenire lo scalzamento della protezione stessa. Minimo costruttivo: 0.30 m.</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Volume totale dell'apron</div>
+            <div class="formula">V<sub>apron</sub> = (L<sub>pila</sub> + 2 × ext) × (a<sub>pila</sub> + 2 × ext) × t</div>
+            <div class="formula-note">Geometria rettangolare semplificata. L'apron si estende uniformemente oltre il perimetro della pila su tutti i lati.</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-label">Spessore strato filtro (Terzaghi)</div>
+            <div class="formula">t<sub>f</sub> = max(0.20 m; 1.5 × D<sub>85,filtro</sub>)</div>
+            <div class="formula-note">Il filtro granulare previene la migrazione del materiale fine del substrato attraverso i vuoti della scogliera. D<sub>85,filtro</sub> ≈ 2 × 0.25 × D<sub>50</sub>.</div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 4: PARAMETRI ==================== -->
+    <section class="section" id="parametri">
+        <h2>4. Input e Parametri di Calcolo</h2>
+
+        <h3>Parametri di Input Principali</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parametro</th>
+                        <th>Simbolo</th>
+                        <th>Tipo</th>
+                        <th>Descrizione</th>
+                        <th>Unità</th>
+                        <th>Default</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pezzatura massi</td>
+                        <td>D50</td>
+                        <td>Input da monte</td>
+                        <td>Diametro caratteristico dei massi dell'apron (da ScoglieraPila)</td>
+                        <td>m</td>
+                        <td>0.30</td>
+                    </tr>
+                    <tr>
+                        <td>Scalzamento atteso</td>
+                        <td>ys</td>
+                        <td>Input da monte</td>
+                        <td>Profondità di scalzamento di progetto (da Scalzamento)</td>
+                        <td>m</td>
+                        <td>2.00</td>
+                    </tr>
+                    <tr>
+                        <td>Larghezza pila</td>
+                        <td>a</td>
+                        <td>Input utente</td>
+                        <td>Larghezza caratteristica della pila perpendicolare al flusso</td>
+                        <td>m</td>
+                        <td>2.00</td>
+                    </tr>
+                    <tr>
+                        <td>Lunghezza pila</td>
+                        <td>L<sub>p</sub></td>
+                        <td>Input utente</td>
+                        <td>Lunghezza della pila nella direzione del flusso</td>
+                        <td>m</td>
+                        <td>8.00</td>
+                    </tr>
+                    <tr>
+                        <td>Fattore spessore</td>
+                        <td>f<sub>t</sub></td>
+                        <td>Input utente</td>
+                        <td>Moltiplicatore per il calcolo dello spessore (t = f<sub>t</sub> × D50)</td>
+                        <td>-</td>
+                        <td>2.5</td>
+                    </tr>
+                    <tr>
+                        <td>Fattore estensione</td>
+                        <td>f<sub>L</sub></td>
+                        <td>Input utente</td>
+                        <td>Moltiplicatore per il calcolo dell'estensione (ext = f<sub>L</sub> × ys)</td>
+                        <td>-</td>
+                        <td>2.5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Parametri di Materiale e Costo</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parametro</th>
+                        <th>Simbolo</th>
+                        <th>Descrizione</th>
+                        <th>Unità</th>
+                        <th>Default</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Densità relativa roccia</td>
+                        <td>S<sub>s</sub></td>
+                        <td>Rapporto tra densità del materiale lapideo e dell'acqua</td>
+                        <td>-</td>
+                        <td>2.65</td>
+                        <td>Tipico per rocce calcaree e granitiche</td>
+                    </tr>
+                    <tr>
+                        <td>Densità acqua</td>
+                        <td>ρ</td>
+                        <td>Densità del fluido nel fiume</td>
+                        <td>kg/m³</td>
+                        <td>1000</td>
+                        <td>Acqua dolce</td>
+                    </tr>
+                    <tr>
+                        <td>Porosità scogliera</td>
+                        <td>n</td>
+                        <td>Frazione di vuoti nella scogliera posata</td>
+                        <td>-</td>
+                        <td>0.40</td>
+                        <td>Tipico 0.35 - 0.45</td>
+                    </tr>
+                    <tr>
+                        <td>Costo scogliera</td>
+                        <td>C<sub>s</sub></td>
+                        <td>Costo unitario della scogliera posata (IVA esclusa)</td>
+                        <td>EUR/m³</td>
+                        <td>80</td>
+                        <td>Include fornitura e posa</td>
+                    </tr>
+                    <tr>
+                        <td>Costo filtro</td>
+                        <td>C<sub>f</sub></td>
+                        <td>Costo unitario del filtro granulare (IVA esclusa)</td>
+                        <td>EUR/m³</td>
+                        <td>40</td>
+                        <td>Include fornitura e posa</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Output Calcolati</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parametro</th>
+                        <th>Simbolo</th>
+                        <th>Descrizione</th>
+                        <th>Unità</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Spessore apron</td>
+                        <td>t</td>
+                        <td>Spessore verticale dell'apron fondazionale</td>
+                        <td>m</td>
+                    </tr>
+                    <tr>
+                        <td>Estensione laterale</td>
+                        <td>ext</td>
+                        <td>Proiezione dell'apron oltre il perimetro della pila</td>
+                        <td>m</td>
+                    </tr>
+                    <tr>
+                        <td>Affondamento</td>
+                        <td>z<sub>sub</sub></td>
+                        <td>Quota di posa dell'apron rispetto al fondo attuale</td>
+                        <td>m</td>
+                    </tr>
+                    <tr>
+                        <td>Lunghezza piano apron</td>
+                        <td>L<sub>apron</sub></td>
+                        <td>Dimensione longitudinale totale del piano orizzontale</td>
+                        <td>m</td>
+                    </tr>
+                    <tr>
+                        <td>Larghezza piano apron</td>
+                        <td>B<sub>apron</sub></td>
+                        <td>Dimensione trasversale totale del piano orizzontale</td>
+                        <td>m</td>
+                    </tr>
+                    <tr>
+                        <td>Volume totale apron</td>
+                        <td>V<sub>apron</sub></td>
+                        <td>Volume totale della scogliera (include i vuoti)</td>
+                        <td>m³</td>
+                    </tr>
+                    <tr>
+                        <td>Spessore filtro</td>
+                        <td>t<sub>f</sub></td>
+                        <td>Spessore dello strato filtro granulare</td>
+                        <td>m</td>
+                    </tr>
+                    <tr>
+                        <td>Volume filtro</td>
+                        <td>V<sub>f</sub></td>
+                        <td>Volume del filtro granulare</td>
+                        <td>m³</td>
+                    </tr>
+                    <tr>
+                        <td>Massa roccia netta</td>
+                        <td>M<sub>roccia</sub></td>
+                        <td>Tonnellate di roccia necessarie (escluso volume vuoti)</td>
+                        <td>t</td>
+                    </tr>
+                    <tr>
+                        <td>Costo totale</td>
+                        <td>C<sub>tot</sub></td>
+                        <td>Stima costo totale scogliera + filtro</td>
+                        <td>EUR</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 5: NORMATIVE ==================== -->
+    <section class="section" id="normative">
+        <h2>5. Metodologia di Calcolo e Normative</h2>
+
+        <h3>Riferimenti Normativi Implementati</h3>
+        
+        <div class="info-card">
+            <h4>FHWA HEC-23 (2009)</h4>
+            <p><strong>Bridge Scour and Stream Instability Countermeasures</strong><br>
+            Linee guida federali americane per la protezione contro lo scalzamento dei ponti. Fornisce le raccomandazioni principali per il dimensionamento dell'apron: spessore minimo pari ad almeno 2 volte il D50, estensione laterale di almeno 2 volte lo scalzamento atteso.</p>
+        </div>
+
+        <div class="info-card success">
+            <h4>FHWA HEC-18 / Richardson & Davis</h4>
+            <p><strong>Evaluating Scour at Bridges</strong><br>
+            Definisce le metodologie per la valutazione dello scalzamento e fornisce criteri per la protezione delle fondazioni. L'estensione dell'apron deve garantire copertura completa dell'area di erosione potenziale.</p>
+        </div>
+
+        <div class="info-card warning">
+            <h4>Terzaghi (1943) - Theoretical Soil Mechanics</h4>
+            <p><strong>Criterio del filtro granulare</strong><br>
+            Per prevenire la migrazione del materiale fine del substrato attraverso i vuoti della scogliera, lo strato filtro deve soddisfare: D<sub>15,filtro</sub> / D<sub>85,suolo</sub> ≤ 4-5 e D<sub>50,filtro</sub> / D<sub>50,suolo</sub> ≤ 25.</p>
+        </div>
+
+        <div class="info-card">
+            <h4>USACE EM 1110-2-1913</h4>
+            <p><strong>Design and Construction of Levees</strong><br>
+            Manuale tecnico dell'US Army Corps of Engineers per la progettazione di argini e protezioni fluviiali. Fornisce indicazioni aggiuntive sullo strato filtro e sulla posa dei massi.</p>
+        </div>
+
+        <div class="info-card success">
+            <h4>EN 13383-1:2002+A1:2008</h4>
+            <p><strong>Armourstone - Product specification</strong><br>
+            Norma europea per i massi lapidei utilizzati nelle protezioni idrauliche. Definisce classi di pezzatura, forma, durabilità e tolleranze per i massi D50 da 10 mm a 500 mm.</p>
+        </div>
+
+        <h3>Tabella Riepilogativa Verifiche</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>N.</th>
+                        <th>Verifica</th>
+                        <th>Criterio</th>
+                        <th>Riferimento</th>
+                        <th>Esito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Spessore apron</td>
+                        <td>t ≥ max(0.30 m; 2 × D50)</td>
+                        <td>FHWA HEC-23</td>
+                        <td><span class="badge-ok">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Estensione laterale</td>
+                        <td>ext ≥ 2 × ys</td>
+                        <td>FHWA HEC-23, HEC-18</td>
+                        <td><span class="badge-ok">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Affondamento sotto fondo</td>
+                        <td>z ≥ 0.30 m</td>
+                        <td>Linea guida costruttiva</td>
+                        <td><span class="badge-warn">ATTENZIONE</span></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Spessore filtro granulare</td>
+                        <td>t<sub>f</sub> ≥ 0.20 m</td>
+                        <td>Terzaghi; USACE</td>
+                        <td><span class="badge-ok">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Lunghezza piano apron</td>
+                        <td>L<sub>ap</sub> ≥ L<sub>pila</sub> + 2 × ys</td>
+                        <td>FHWA HEC-23</td>
+                        <td><span class="badge-ok">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>D50 pezzatura ammissibile</td>
+                        <td>0.10 m ≤ D50 ≤ 1.50 m</td>
+                        <td>EN 13383-1; FHWA</td>
+                        <td><span class="badge-ok">OK</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 6: VERIFICHE AVANZATE ==================== -->
+    <section class="section" id="verifiche">
+        <h2>6. Verifiche Normative Dettagliate</h2>
+
+        <h3>Verifica 1: Spessore Apron</h3>
+        <div class="formula-box">
+            <div class="formula-label">Condizione di verifica</div>
+            <div class="formula">t ≥ max(0.30 m; 2.0 × D<sub>50</sub>)</div>
+            <div class="formula-note">Lo spessore deve garantire almeno 2 strati di massi sovrapposti (condizione di funzionamento anche se il topostrato viene eroso). Minimo assoluto costruttivo: 0.30 m.</div>
+        </div>
+
+        <h3>Verifica 2: Estensione Laterale</h3>
+        <div class="formula-box">
+            <div class="formula-label">Condizione di verifica</div>
+            <div class="formula">ext ≥ 2.0 × y<sub>s</sub></div>
+            <div class="formula-note">L'apron deve estendersi oltre la zona di scalzamento per garantire una margine di sicurezza. In caso di evoluzione morfologica o incertezze sul modello di scalzamento, si consiglia f<sub>L</sub> ≥ 2.5.</div>
+        </div>
+
+        <h3>Verifica 3: Affondamento</h3>
+        <div class="formula-box">
+            <div class="formula-label">Condizione di verifica</div>
+            <div class="formula">z ≥ 0.30 m</div>
+            <div class="formula-note">L'apron deve essere ancorato al di sotto del fondo erodibile per evitare che la protezione stessa venga scalzata. Il valore è il minimo costruttivo; in presenza di forti correnti o materiale fine, valutare affondamenti maggiori.</div>
+        </div>
+
+        <h3>Verifica 4: Filtro Granulare (Terzaghi)</h3>
+        <div class="formula-box">
+            <div class="formula-label">Condizione di verifica</div>
+            <div class="formula">t<sub>f</sub> = max(0.20 m; 1.5 × D<sub>85,filtro</sub>)</div>
+            <div class="formula-note">Lo spessore del filtro è calcolato secondo Terzaghi per prevenire la piping del materiale fine. D<sub>85,filtro</sub> ≈ 2 × 0.25 × D<sub>50,riprap</sub>.</div>
+        </div>
+
+        <h3>Verifica 5: Dimensioni Piano Apron</h3>
+        <div class="formula-box">
+            <div class="formula-label">Condizione di verifica</div>
+            <div class="formula">L<sub>ap</sub> ≥ L<sub>pila</sub> + 2 × y<sub>s</sub></div>
+            <div class="formula-note">Il piano dell'apron deve coprire l'intera area di potenziale scalzamento, estendendosi oltre il perimetro della pila.</div>
+        </div>
+
+        <h3>Verifica 6: Pezzatura D50</h3>
+        <div class="formula-box">
+            <div class="formula-label">Campo di applicabilità</div>
+            <div class="formula">0.10 m ≤ D<sub>50</sub> ≤ 1.50 m</div>
+            <div class="formula-note">Il range tipico per apron fondazionali di protezione ponti. Valori inferiori a 0.10 m possono essere mobilitati dalla corrente; valori superiori a 1.50 m richiedono mezzi speciali per la posa.</div>
+        </div>
+
+        <div class="info-card warning">
+            <h4>⚠️ Nota Importante</h4>
+            <p>Le verifiche normative sono finalizzate al dimensionamento preliminare. Il progetto esecutivo deve includere: indagini geotecniche dettagliate, analisi idrologica e idraulica aggiornata, verifica della stabilità dei massi alla corrente (Shield's criterion), e considerazione degli effetti di gruppo e della disposizione dei massi.</p>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 7: REPORT ==================== -->
+    <section class="section" id="report">
+        <h2>7. Generazione Report</h2>
+
+        <p>L'applicazione genera automaticamente report professionali in diversi formati per documentare il dimensionamento e le verifiche normative.</p>
+
+        <h3>Report PDF</h3>
+        <p>Il report PDF professionale contiene le seguenti sezioni:</p>
+        <ul>
+            <li><strong>Sezione 1 - Parametri di input:</strong> tutti i valori inseriti dall'utente</li>
+            <li><strong>Sezione 2 - Risultati principali:</strong> dimensioni geometriche, volume, massa, costi</li>
+            <li><strong>Sezione 3 - Passaggi di calcolo:</strong> tabella dettagliata con tutti i passaggi intermedi</li>
+            <li><strong>Sezione 4 - Riepilogo dimensionamento:</strong> vista sintetica dei parametri di progetto</li>
+            <li><strong>Sezione 5 - Verifiche normative:</strong> tabella delle verifiche con esito</li>
+            <li><strong>Sezione 6 - Note tecniche:</strong> commenti automatici di progetto</li>
+        </ul>
+
+        <h3>Esportazione CSV</h3>
+        <p>Sono disponibili tre file CSV per l'esportazione dei dati:</p>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Contenuto</th>
+                        <th>Utilizzo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>fondazione_passaggi.csv</code></td>
+                        <td>Tabella completa dei passaggi di calcolo</td>
+                        <td>Audit e revisione dei calcoli</td>
+                    </tr>
+                    <tr>
+                        <td><code>fondazione_risultati.csv</code></td>
+                        <td>Riepilogo parametri e dimensioni</td>
+                        <td>Report sintetici, confronti</td>
+                    </tr>
+                    <tr>
+                        <td><code>fondazione_verifiche.csv</code></td>
+                        <td>Tabella delle verifiche normative</td>
+                        <td>Documentazione verifiche</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Esportazione Parametri JSON</h3>
+        <p>È possibile salvare e caricare i parametri di progetto in formato JSON per:</p>
+        <ul>
+            <li>Documentazione della configurazione di progetto</li>
+            <li>Ripristino di sessioni precedenti</li>
+            <li>Confronto tra scenari progettuali</li>
+        </ul>
+    </section>
+
+    <!-- ==================== SECTION 8: LIMITAZIONI ==================== -->
+    <section class="section" id="limitazioni">
+        <h2>8. Limitazioni e Avvertenze</h2>
+
+        <div class="info-card danger">
+            <h4>Limitazioni del Dimensionamento</h4>
+            <p>Questa applicazione fornisce un <strong>dimensionamento di massima (preliminare)</strong>. Il progetto esecutivo richiede:</p>
+            <ul>
+                <li>Indagini geotecniche complete del sito</li>
+                <li>Analisi idrologica e idraulica aggiornata con dati misurati</li>
+                <li>Verifica della stabilità dei singoli massi (Shield's criterion, Isbash)</li>
+                <li>Considerazione degli effetti dinamici e della fatica</li>
+                <li>Verifica della stabilità globale dell'apron</li>
+            </ul>
+        </div>
+
+        <div class="info-card warning">
+            <h4>Ipotesi Semplificative</h4>
+            <p>L'applicazione assume le seguenti ipotesi semplificative:</p>
+            <ul>
+                <li>Geometria rettangolare semplificata dell'apron</li>
+                <li>Estensione uniforme su tutti i lati della pila</li>
+                <li>Massi di forma approssimativamente sferica</li>
+                <li>Condizioni idrauliche stazionarie</li>
+                <li>Assenza di effetti di sponda o interazioni con altre strutture</li>
+            </ul>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <h4>Validazione Raccomandata</h4>
+                <p>I risultati devono essere validati con normative locali vigenti e buone pratiche engineering prima dell'utilizzo in progettazione definitiva.</p>
+            </div>
+            <div class="card">
+                <h4>Aggiornamento Normativa</h4>
+                <p>Le normative sono soggette ad aggiornamenti periodici. Verificare sempre la versione più recente dei riferimenti normativi applicabili.</p>
+            </div>
+            <div class="card">
+                <h4>Responsabilità</h4>
+                <p>L'uso di questo software non esonera il progettista dalla responsabilità professionale nella verifica e validazione dei risultati.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECTION 9: GLOSSARIO ==================== -->
+    <section class="section" id="glossario">
+        <h2>9. Glossario Tecnico</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Termine</th>
+                        <th>Simbolo</th>
+                        <th>Definizione</th>
+                        <th>EN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Apron</td>
+                        <td>-</td>
+                        <td>Struttura di protezione a base di massi lapidei disposti sul fondo fluviale attorno alle fondazioni di una pila da ponte</td>
+                        <td>Apron, riprap foundation</td>
+                    </tr>
+                    <tr>
+                        <td>D50</td>
+                        <td>D<sub>50</sub></td>
+                        <td>Diametro caratteristico dei massi, corrispondente al 50° percentile della curva granulometrica</td>
+                        <td>Median stone size</td>
+                    </tr>
+                    <tr>
+                        <td>Scalzamento</td>
+                        <td>y<sub>s</sub></td>
+                        <td>Profondità di erosione del letto fluviale attesa attorno alla pila</td>
+                        <td>Local scour depth</td>
+                    </tr>
+                    <tr>
+                        <td>Spessore apron</td>
+                        <td>t</td>
+                        <td>Spessore verticale della protezione in massi lapidei</td>
+                        <td>Apron thickness</td>
+                    </tr>
+                    <tr>
+                        <td>Estensione laterale</td>
+                        <td>ext</td>
+                        <td>Distanza di protrusione dell'apron oltre il perimetro della pila</td>
+                        <td>Lateral extent</td>
+                    </tr>
+                    <tr>
+                        <td>Affondamento</td>
+                        <td>z<sub>sub</sub></td>
+                        <td>Quota di posa dell'apron rispetto al fondo attuale del corso d'acqua</td>
+                        <td>Embedment depth</td>
+                    </tr>
+                    <tr>
+                        <td>Strato filtro</td>
+                        <td>t<sub>f</sub></td>
+                        <td>Strato granulare di transizione tra substrato e scogliera, che previene la migrazione del materiale fine</td>
+                        <td>Filter layer, bedding</td>
+                    </tr>
+                    <tr>
+                        <td>Porosità</td>
+                        <td>n</td>
+                        <td>Rapporto tra volume dei vuoti e volume totale della scogliera posata</td>
+                        <td>Porosity</td>
+                    </tr>
+                    <tr>
+                        <td>Pila</td>
+                        <td>-</td>
+                        <td>Struttura verticale di supporto dell'impalcato del ponte, che trasferisce i carichi alla fondazione</td>
+                        <td>Pier</td>
+                    </tr>
+                    <tr>
+                        <td>Pezzatura</td>
+                        <td>-</td>
+                        <td>Gamma di dimensioni dei massi impiegati nella scogliera</td>
+                        <td>Stone sizing, gradation</td>
+                    </tr>
+                    <tr>
+                        <td>Fattore spessore</td>
+                        <td>f<sub>t</sub></td>
+                        <td>Moltiplicatore adimensionale per il calcolo dello spessore dell'apron in funzione di D50</td>
+                        <td>Thickness factor</td>
+                    </tr>
+                    <tr>
+                        <td>Fattore estensione</td>
+                        <td>f<sub>L</sub></td>
+                        <td>Moltiplicatore adimensionale per il calcolo dell'estensione laterale in funzione di ys</td>
+                        <td>Length factor</td>
+                    </tr>
+                    <tr>
+                        <td>Densità relativa</td>
+                        <td>S<sub>s</sub></td>
+                        <td>Rapporto tra densità del materiale solido e densità dell'acqua</td>
+                        <td>Specific gravity</td>
+                    </tr>
+                    <tr>
+                        <td>Piping</td>
+                        <td>-</td>
+                        <td>Fenomeno di erosione interna per il quale il materiale fine migra attraverso i vuoti della scogliera</td>
+                        <td>Piping, internal erosion</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer id="footer">
+    <div class="footer-content">
+        <h3>ScoglieraFondazione - Documentazione Tecnica</h3>
+        <p>
+            <strong>Versione:</strong> 2.0<br>
+            <strong>Ultimo aggiornamento:</strong> 2026<br>
+            <strong>Normative di riferimento:</strong> FHWA HEC-23, FHWA HEC-18, Terzaghi (1943), USACE EM 1110-2-1913, EN 13383-1
+        </p>
+        
+        <p class="disclaimer">
+            <strong>DICHIARAZIONE DI NON RESPONSABILITÀ</strong><br>
+            Questa applicazione è uno strumento di dimensionamento <strong>preliminare</strong>. I risultati forniti sono indicativi e devono essere 
+            verificati e validati da un ingegnere strutturista qualificato prima di qualsiasi utilizzo in ambito progettuale. L'autore e i 
+            distributori non si assumono alcuna responsabilità per danni diretti, indiretti, incidentali o consequenziali derivanti dall'uso 
+            di questo software. Il progettista è l'unico responsabile della corretta interpretazione dei risultati e della conformità alle 
+            normative vigenti. Le verifiche normative implementate non sostituiscono un'analisi geotecnica e idraulica dettagliata del sito specifico.
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
