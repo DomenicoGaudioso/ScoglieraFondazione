@@ -1,0 +1,26 @@
+{
+  "name": "base_apron_fondazione",
+  "input": {
+    "D50": 0.3,
+    "ys_atteso": 2.0,
+    "fattore_spessore": 2.5,
+    "fattore_larghezza": 2.5,
+    "larghezza_pila": 2.0,
+    "lunghezza_pila": 8.0,
+    "S_s": 2.65,
+    "rho": 1000.0,
+    "porosita": 0.4,
+    "costo_eur_m3": 80.0,
+    "costo_filtro_eur_m3": 40.0
+  },
+  "expected": {
+    "spessore": 0.75,
+    "larghezza": 5.0,
+    "sottofondo": 0.4,
+    "volume": 162.0,
+    "massa_t": 257.6,
+    "costo_totale": 14904.0,
+    "filtro": 0.225
+  },
+  "abs_tolerance": 1e-6
+}

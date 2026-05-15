@@ -14,7 +14,7 @@ La versione attuale è completa nei requisiti di base. Funzionalità implementat
 - curva_sensitivita_D50(): 50 punti, spessore vs D50.
 - curva_sensitivita_ys(): 50 punti, estensione e affondamento vs ys.
 - commenti_progettuali(): note automatiche su spessore minimo, estensione, affondamento, filtro.
-- app.py: layout wide, 4 metriche, input pila + fattori in sidebar, 3 tab,
+- app.py: layout wide, risultati principali tabellati, input pila + fattori in sidebar, 3 tab,
   2 grafici sensitività Plotly con marcatura, download CSV.
 
 STANDARD DELLA SUITE

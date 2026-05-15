@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
+import pandas as pd
 import streamlit as st
 import plotly.express as px
+from word_report import genera_relazione_word
 from src import (valida_dati, progetto_fondazione, calcola_report,
                  stima_volume_apron, curva_sensitivita_D50, curva_sensitivita_ys,
                  tabella_passaggi, genera_pdf, commenti_progettuali,
@@ -114,26 +116,34 @@ df_sens_ys = curva_sensitivita_ys(D50, fattore_larghezza,
                                   ys_min=max(0.2, ys * 0.3),
                                   ys_max=ys * 3.0)
 note = commenti_progettuali(D50, ys, fattore_spessore, fattore_larghezza)
+df_formule_word = pd.DataFrame([
+    {"Grandezza": "Spessore apron", "Formula": "t = f_t D50", "Nota": "Spessore scogliera"},
+    {"Grandezza": "Estensione laterale", "Formula": "ext = f_L ys", "Nota": "Estensione oltre la pila"},
+    {"Grandezza": "Volume", "Formula": "V = L_apron B_apron t", "Nota": "Volume geometrico"},
+    {"Grandezza": "Massa roccia", "Formula": "M = V (1 - n) rho_s", "Nota": "Porosita della scogliera"},
+])
 
 # ---------------------------------------------------------------------------
-# Indicatori sintetici
+# Risultati principali tabellati
 # ---------------------------------------------------------------------------
 n_ok  = (df_ver["Esito"] == "OK").sum()
 n_att = (df_ver["Esito"] == "ATTENZIONE").sum()
 n_no  = (df_ver["Esito"] == "NON OK").sum()
-
-col1, col2, col3, col4, col5, col6 = st.columns(6)
-col1.metric("Spessore apron [m]", f"{design.spessore:.3f}")
-col2.metric("Estensione laterale [m]", f"{design.larghezza:.2f}")
-col3.metric("Affondamento [m]", f"{design.sottofondo:.2f}")
-col4.metric("Volume apron [m\u00b3]", f"{vol['Volume_apron [m3]']:.2f}")
-col5.metric("Massa roccia [t]", f"{mc['Massa_totale_roccia [t]']:.1f}")
-col6.metric("Verif. OK / WARN / NO", f"{n_ok} / {n_att} / {n_no}", delta_color="off")
+df_risultati_principali = pd.DataFrame([
+    {"Parametro": "Spessore apron", "Valore": f"{design.spessore:.3f}", "Unita": "m", "Esito/nota": "-"},
+    {"Parametro": "Estensione laterale", "Valore": f"{design.larghezza:.2f}", "Unita": "m", "Esito/nota": "-"},
+    {"Parametro": "Affondamento", "Valore": f"{design.sottofondo:.2f}", "Unita": "m", "Esito/nota": "-"},
+    {"Parametro": "Volume apron", "Valore": f"{vol['Volume_apron [m3]']:.2f}", "Unita": "m3", "Esito/nota": "-"},
+    {"Parametro": "Massa roccia", "Valore": f"{mc['Massa_totale_roccia [t]']:.1f}", "Unita": "t", "Esito/nota": "-"},
+    {"Parametro": "Verifiche", "Valore": f"{n_ok} OK / {n_att} ATTENZIONE / {n_no} NON OK", "Unita": "-", "Esito/nota": "riepilogo tabellare"},
+])
+st.subheader("Risultati principali")
+st.dataframe(df_risultati_principali, use_container_width=True, hide_index=True)
 
 # ---------------------------------------------------------------------------
 # Tabs
 # ---------------------------------------------------------------------------
-tab1, tab2, tab3, tab4 = st.tabs(["Risultati", "Grafici", "Verifiche avanzate", "Note tecniche"])
+tab1, tab2, tab3, tab4 = [st.container() for _ in range(4)]
 
 with tab1:
     st.subheader("Passaggi di calcolo (passo per passo)")
@@ -163,7 +173,7 @@ with tab1:
     st.dataframe(df_report, use_container_width=True, hide_index=True)
 
     st.divider()
-    col_dl1, col_dl2, col_dl3 = st.columns(3)
+    col_dl1, col_dl2, col_dl3, col_dl4 = st.columns(4)
     with col_dl1:
         st.download_button("Scarica passaggi CSV",
                            df_pass.to_csv(index=False).encode("utf-8"),
@@ -183,6 +193,39 @@ with tab1:
                                "fondazione_report.pdf", "application/pdf")
         except ImportError:
             st.warning("fpdf2 non installato. Eseguire: pip install fpdf2")
+    with col_dl4:
+        word_bytes = genera_relazione_word(
+            "Relazione tecnica - Apron fondazionale",
+            "Dimensionamento dell'apron di fondazione con volume, massa, filtro e verifiche tabellate.",
+            [
+                {"Parametro": "D50", "Valore": f"{D50:.2f}", "Unita": "m", "Esito/nota": "da scogliera pila"},
+                {"Parametro": "Scalzamento atteso ys", "Valore": f"{ys:.2f}", "Unita": "m", "Esito/nota": "da app scalzamento"},
+                {"Parametro": "Larghezza pila", "Valore": f"{larghezza_pila:.2f}", "Unita": "m", "Esito/nota": "-"},
+                {"Parametro": "Lunghezza pila", "Valore": f"{lunghezza_pila:.2f}", "Unita": "m", "Esito/nota": "-"},
+                {"Parametro": "Porosita", "Valore": f"{porosita:.2f}", "Unita": "-", "Esito/nota": "-"},
+                {"Parametro": "Costo scogliera", "Valore": f"{costo_scogliera:.2f}", "Unita": "EUR/m3", "Esito/nota": "-"},
+            ],
+            df_formule_word,
+            [
+                ("Risultati principali", df_risultati_principali),
+                ("Passaggi di calcolo", df_pass),
+                ("Riepilogo dimensionamento", df_report),
+                ("Verifiche normative", df_ver),
+                ("Sensitivita D50", df_sens_D50),
+                ("Sensitivita scalzamento", df_sens_ys),
+            ],
+            note,
+            figures=[
+                {"title": "Spessore apron in funzione di D50", "df": df_sens_D50, "x": "D50 [m]", "y": "Spessore apron [m]", "kind": "line", "ylabel": "Spessore [m]"},
+                {"title": "Estensione laterale in funzione dello scalzamento", "df": df_sens_ys, "x": "ys [m]", "y": "Estensione laterale [m]", "kind": "line", "ylabel": "Estensione [m]"},
+            ],
+        )
+        st.download_button(
+            "Scarica relazione Word",
+            word_bytes,
+            "relazione_apron_fondazionale.docx",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
 
 with tab2:
     st.subheader("Sensitivit\u00e0 spessore apron vs D50")

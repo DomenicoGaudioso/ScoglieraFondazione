@@ -22,7 +22,7 @@ Funzionalità implementate:
 - curva_sensitivita_D50(): spessore apron al variare di D50 (50 punti).
 - curva_sensitivita_ys(): estensione e affondamento al variare di ys (50 punti).
 - commenti_progettuali(): note automatiche su spessore, estensione, affondamento, filtro.
-- app.py: layout wide, 4 metriche, 3 tab (Risultati / Grafici / Note), 2 grafici Plotly
+- app.py: layout wide, risultati principali tabellati, 3 tab (Risultati / Grafici / Note), 2 grafici Plotly
   sensitività con marcatura del punto di progetto, download CSV.
 
 ## Struttura del progetto

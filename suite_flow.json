@@ -1,0 +1,25 @@
+{
+  "repo": "ScoglieraFondazione",
+  "suite": "Idraulica",
+  "role": "dimensionamento apron fondazionale",
+  "logic_chain": "piena fluviale -> azioni sulla pila -> scalzamento -> scogliera pila -> scogliera fondazione",
+  "upstream": ["Scalzamento", "ScoglieraPila"],
+  "downstream": [],
+  "primary_inputs": [
+    "D50 riprap",
+    "scalzamento atteso ys",
+    "geometria pila",
+    "densita relativa roccia"
+  ],
+  "primary_outputs": [
+    "spessore apron",
+    "estensione laterale",
+    "affondamento",
+    "volume e massa roccia",
+    "stima costo"
+  ],
+  "implementation_notes": [
+    "Chiude la catena di protezione fisica usando D50 e ys calcolati a monte.",
+    "Il costo e' una stima preliminare da aggiornare con prezziario locale."
+  ]
+}
